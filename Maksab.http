@@ -1,0 +1,6 @@
+@Maksab_HostAddress = http://localhost:5111
+
+GET {{Maksab_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
