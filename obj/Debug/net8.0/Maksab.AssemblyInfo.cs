@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Maksab")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e63b71ce512eaa32e52263454276c1513d11c13")]
 [assembly: System.Reflection.AssemblyProductAttribute("Maksab")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Maksab")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
