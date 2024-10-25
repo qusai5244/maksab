@@ -1,6 +1,5 @@
 ﻿using Maksab.Helpers;
 using Maksab.Helpers.MessageHandler;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maksab.Controllers
