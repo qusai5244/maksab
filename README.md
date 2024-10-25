@@ -17,48 +17,14 @@ Follow these steps to create a new API in the project:
 -------------------------------------------------------
 product class example 
 
-public class Product
-{
-    [Key]
-    public int Id { get; set; }
 
-    [Required]
-    [MaxLength(100)]
-    public string Name { get; set; }
+    Id --> int
+    Name --> string
+    Description -->string
+    Price --> decimal
+    ProductCategory --> Category(add new Enum ) . (e.g Electronics, HomeGoods, etc)
+    ProductStatus --> Status(add new Enum ) . (e.g InStock, OutOfStock, etc)
+    StockQuantity --> int
+    CreatedAt --> DateTime
+    UpdatedAt --> DateTime (nullable)
 
-    [MaxLength(500)]
-    public string Description { get; set; }
-
-    [Required]
-    public decimal Price { get; set; }
-
-    [Required]
-    public Category ProductCategory { get; set; }
-
-    [Required]
-    public Status ProductStatus { get; set; }
-
-    public int StockQuantity { get; set; }
-
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    public DateTime? UpdatedAt { get; set; }
-}
-public enum Category
-{
-    Electronics,
-    Clothing,
-    HomeGoods,
-    Books,
-    Beauty,
-    Sports,
-    Automotive
-}
-
-public enum Status
-{
-    InStock,
-    OutOfStock,
-    PreOrder,
-    Discontinued
-}
