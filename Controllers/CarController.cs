@@ -1,5 +1,6 @@
 using Maksab.Dtos;
 using Maksab.Dtos.Car;
+using Maksab.Helpers.MessageHandler;
 using Maksab.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,10 +8,10 @@ namespace Maksab.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CarController : ControllerBase
+    public class CarController : BaseController
     {
         public readonly ICarServices _carServices;
-        public CarController(ICarServices carServices)
+        public CarController(ICarServices carServices, IMessageHandler messageHandler) : base(messageHandler)
         {
             _carServices = carServices;
         }
@@ -25,8 +26,7 @@ namespace Maksab.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Get([FromQuery]GlobalFilterDto input)
         {
-            var result = await _carServices.GetCarListAsync(input);
-            return Ok(result);
+            return GetServiceResponse(await _carServices.GetCarListAsync(input));
         }
 
         [HttpGet("{carId}")]
