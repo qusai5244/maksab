@@ -1,4 +1,7 @@
 using Maksab.Data;
+using Maksab.Helpers.MessageHandler;
+using Maksab.Services;
+using Maksab.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +14,10 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<ICarServices, CarService>();
+builder.Services.AddScoped<IMessageHandler, MessageHandler>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
