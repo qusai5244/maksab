@@ -2,7 +2,7 @@
 
 namespace Maksab.Models
 {
-    public class User
+    public class User : BaseModel
     {
         [Required]
         [MaxLength(255)]
