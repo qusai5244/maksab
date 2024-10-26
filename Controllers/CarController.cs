@@ -2,10 +2,12 @@ using Maksab.Dtos;
 using Maksab.Dtos.Car;
 using Maksab.Helpers.MessageHandler;
 using Maksab.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maksab.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CarController : BaseController

@@ -25,8 +25,6 @@ namespace Maksab.Models
         public bool IsActive { get; set; } = true;  
         public bool IsDeleted { get; set; } = false;  
         public string ProfileImageUrl { get; set; } 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
         public DateTime? LastLogin { get; set; }
         public ICollection<UserToRole> UsersToRoles { get; set; }
 
