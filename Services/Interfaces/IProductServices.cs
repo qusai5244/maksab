@@ -6,9 +6,9 @@ namespace Maksab.Services.Interfaces
 {
     public interface IProductServices
     {
-        Task<ServiceResponse> AddProductAsync(AddNewProductdDto input);
+        Task<ServiceResponse> AddProductAsync(AddNewProductDto input);
         Task<ServiceResponse<ProductOutputDto>> GetProductAsync(int carId);
-        Task<ServiceResponse<Pagination<CarListOutputDto>>> GetProductListAsync(GlobalFilterDto input);
+        Task<ServiceResponse<Pagination<ProductListOutputDto>>> GetProductListAsync(GlobalFilterDto input);
         Task<ServiceResponse> UpdateProductAsync(int ProductId, UpdateProductDto input);
     }
 }

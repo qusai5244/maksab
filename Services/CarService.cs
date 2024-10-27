@@ -1,6 +1,6 @@
 ﻿using Maksab.Data;
 using Maksab.Dtos;
-using Maksab.Dtos.Product;
+using Maksab.Dtos.Car;
 using Maksab.Helpers;
 using Maksab.Helpers.MessageHandler;
 using Maksab.Models;
@@ -19,7 +19,7 @@ namespace Maksab.Services
             _messageHandler = messageHandler;
         }
 
-        public async Task<ServiceResponse> AddCarAsync(AddNewProductdDto input)
+        public async Task<ServiceResponse> AddCarAsync(AddNewCardDto input)
         {
             try
             {
@@ -88,14 +88,14 @@ namespace Maksab.Services
 
         }
 
-        public async Task<ServiceResponse<ProductOutputDto>> GetCarAsync(int carId)
+        public async Task<ServiceResponse<CarOutputDto>> GetCarAsync(int carId)
         {
             try
             {
                 var car = await _dataContext
                                 .Cars
                                 .AsNoTracking()
-                                .Select(r => new ProductOutputDto
+                                .Select(r => new CarOutputDto
                                 {
                                     Id = r.Id,
                                     Year = r.Year,
@@ -111,7 +111,7 @@ namespace Maksab.Services
 
                 if (car == null)
                 {
-                    return _messageHandler.GetServiceResponse<ProductOutputDto>(ErrorMessage.NotFound, null, "Car");
+                    return _messageHandler.GetServiceResponse<CarOutputDto>(ErrorMessage.NotFound, null, "Car");
                 }
 
                 return _messageHandler.GetServiceResponse(SuccessMessage.Retrieved, car);
@@ -119,7 +119,7 @@ namespace Maksab.Services
             catch (Exception ex)
             {
 
-                return _messageHandler.GetServiceResponse<ProductOutputDto>(ErrorMessage.ServerInternalError,null, "GetCarAsync");
+                return _messageHandler.GetServiceResponse<CarOutputDto>(ErrorMessage.ServerInternalError,null, "GetCarAsync");
             }
         }
 

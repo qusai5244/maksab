@@ -9,7 +9,7 @@ namespace Maksab.Dtos.Product
         public int Id { get; set; }
 
         [Range(0, 500000)]
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         [MaxLength(255)]
         public string Description { get; set; }

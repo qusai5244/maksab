@@ -1,9 +1,9 @@
 ﻿using Maksab.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Maksab.Dtos.Product
+namespace Maksab.Dtos.Car
 {
-    public class AddNewProductdDto
+    public class AddNewCardDto
     {
         [Required]
         public int Year { get; set; }
