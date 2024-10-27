@@ -1,7 +1,7 @@
 ﻿using Maksab.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Maksab.Dtos.Car
+namespace Maksab.Dtos.Product
 {
     public class UpdateCardDto
     {

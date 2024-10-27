@@ -1,6 +1,6 @@
 ﻿using Maksab.Models;
 
-namespace Maksab.Dtos.Car
+namespace Maksab.Dtos.Product
 {
     public class CarOutputDto
     {

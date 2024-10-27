@@ -1,5 +1,5 @@
 using Maksab.Dtos;
-using Maksab.Dtos.Car;
+using Maksab.Dtos.Product;
 using Maksab.Helpers.MessageHandler;
 using Maksab.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ namespace Maksab.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Post([FromBody] AddNewCardDto input)
+        public async Task<IActionResult> Post([FromBody] AddNewProductdDto input)
         {
             var result = await _carServices.AddCarAsync(input);
             return Ok(result);

@@ -1,23 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Maksab.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace Maksab.Models
+namespace Maksab.Dtos.Product
 {
-    public class Product
+    public class ProductListOutputDto
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+
+        [Range(0, 500000)]
+        public int Name { get; set; }
+
+        [MaxLength(255)]
         public string Description { get; set; }
+
+        [Required]
         public Category Category { get; set; }
+        [Required]
         public decimal Price { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
-    }
 
-    public enum Category
-    {
-        Electronics = 1,
-        Clothing = 2,
-        Home = 3,
+
     }
 }

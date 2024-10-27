@@ -16,6 +16,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<ICarServices, CarService>();
+builder.Services.AddScoped<IProductServices, ProductService>();
 builder.Services.AddScoped<IMessageHandler, MessageHandler>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Maksab.Services
 {
-    public class CarService : ICarServices
+    public class ProductService : IProductServices
     {
         private readonly DataContext _dataContext;
         private readonly IMessageHandler _messageHandler;
-        public CarService(DataContext dataContext, IMessageHandler messageHandler)
+        public ProductService(DataContext dataContext, IMessageHandler messageHandler)
         {
             _dataContext = dataContext;
             _messageHandler = messageHandler;
@@ -152,6 +152,24 @@ namespace Maksab.Services
             }
         }
 
+        public Task<ServiceResponse> AddProductAsync(AddNewProductdDto input)
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<ServiceResponse<ProductOutputDto>> GetProductAsync(int carId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ServiceResponse<Pagination<CarListOutputDto>>> GetProductListAsync(GlobalFilterDto input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ServiceResponse> UpdateProductAsync(int ProductId, UpdateProductDto input)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
