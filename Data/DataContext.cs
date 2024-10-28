@@ -11,6 +11,7 @@ namespace Maksab.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<RoleToPermission> RoleToPermissions { get; set; }
         public DbSet<Permission> Permissions { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }
 
     }
 }
