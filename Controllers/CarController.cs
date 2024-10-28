@@ -16,12 +16,12 @@ namespace Maksab.Controllers
             _carServices = carServices;
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> Post([FromBody] AddNewProductdDto input)
-        {
-            var result = await _carServices.AddCarAsync(input);
-            return Ok(result);
-        }
+        //[HttpPost("")]
+        //public async Task<IActionResult> Post([FromBody] AddNewProductDto input)
+        //{
+        //    var result = await _carServices.AddCarAsync(input);
+        //    return Ok(result);
+        //}
 
         [HttpGet("")]
         public async Task<IActionResult> Get([FromQuery]GlobalFilterDto input)
@@ -36,12 +36,12 @@ namespace Maksab.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{carId}")]
-        public async Task<IActionResult> Put(int carId, [FromBody] UpdateCardDto input)
-        {
-            var result = await _carServices.UpdateCarAsync(carId, input);
-            return Ok(result);
-        }
+        //[HttpPut("{carId}")]
+        //public async Task<IActionResult> Put(int carId, [FromBody] UpdateCardDto input)
+        //{
+        //    var result = await _carServices.UpdateCarAsync(carId, input);
+        //    return Ok(result);
+        //}
 
 
     }

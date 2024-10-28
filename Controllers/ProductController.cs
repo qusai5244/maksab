@@ -17,7 +17,7 @@ namespace Maksab.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Post([FromBody] AddNewProductdDto input)
+        public async Task<IActionResult> Post([FromBody] AddNewProductDto input)
         {
             var result = await _productServices.AddProductAsync(input);
             return Ok(result);
