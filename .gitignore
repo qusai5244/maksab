@@ -76,8 +76,6 @@ coverage/*
 
 # Entity Framework Migrations
 *.Designer.cs
-Migrations/
-
 # Temporary files
 *.tmp
 *.temp
