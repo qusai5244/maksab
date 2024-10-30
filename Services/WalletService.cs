@@ -11,6 +11,8 @@ namespace Maksab.Services
     {
         private readonly DataContext _dataContext;
         private readonly IMessageHandler _messageHandler;
+        private const decimal MaxBalance = 100;
+        private const decimal MinBalance = 0;
         public WalletService(DataContext dataContext, IMessageHandler messageHandler)
         {
             _dataContext = dataContext;
@@ -59,6 +61,115 @@ namespace Maksab.Services
             catch (Exception ex)
             {
 
+                throw;
+            }
+        }
+
+
+        public async Task<ServiceResponse> ActivateWalletAsync(int userId)
+        {
+            try
+            {
+                var wallet = await _dataContext.Wallets
+                                                .FirstOrDefaultAsync(x => x.UserId == userId && !x.IsDeleted);
+
+                if (wallet == null)
+                {
+                    return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, "Wallet");
+                }
+
+                wallet.IsActive = true;
+                await _dataContext.SaveChangesAsync();
+
+                return _messageHandler.GetServiceResponse(SuccessMessage.Updated, "Wallet activated");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here if necessary
+                throw;
+            }
+        }
+        public async Task<ServiceResponse> DeactivateWalletAsync(int userId)
+        {
+            try
+            {
+                var wallet = await _dataContext.Wallets
+                                                .FirstOrDefaultAsync(x => x.UserId == userId && !x.IsDeleted);
+
+                if (wallet == null)
+                {
+                    return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, "Wallet");
+                }
+
+                wallet.IsActive = false;
+                await _dataContext.SaveChangesAsync();
+
+                return _messageHandler.GetServiceResponse(SuccessMessage.Updated, "Wallet deactivated");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here if necessary
+                throw;
+            }
+        }
+        public async Task<ServiceResponse> TopUpWalletAsync(int walletId, decimal amount)
+        {
+            try
+            {
+                var wallet = await _dataContext.Wallets
+                                                .FirstOrDefaultAsync(x => x.Id == walletId && !x.IsDeleted);
+
+                if (wallet == null)
+                {
+                    return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, "Wallet");
+                }
+
+                // Check if the new balance exceeds the maximum limit
+                if (wallet.Balance + amount > MaxBalance)
+                {
+                    // change notFound to InvalidOperation
+                    return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, $"Cannot top up. Maximum balance is {MaxBalance}.");
+                }
+
+                // Update the wallet balance
+                wallet.Balance += amount;
+                await _dataContext.SaveChangesAsync();
+
+                return _messageHandler.GetServiceResponse(SuccessMessage.Updated, "Wallet topped up successfully");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here if necessary
+                throw;
+            }
+        }
+        public async Task<ServiceResponse> DebitWalletAsync(int walletId, decimal amount)
+        {
+            try
+            {
+                var wallet = await _dataContext.Wallets
+                                                .FirstOrDefaultAsync(x => x.Id == walletId && !x.IsDeleted);
+
+                if (wallet == null)
+                {
+                    return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, "Wallet");
+                }
+
+                // Check if the debit amount will result in a negative balance
+                if (wallet.Balance - amount < MinBalance)
+                {
+                    return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, $"Cannot debit. Minimum balance is {MinBalance}.");
+                }
+
+                // Update the wallet balance
+                wallet.Balance -= amount;
+                await _dataContext.SaveChangesAsync();
+
+                return _messageHandler.GetServiceResponse(SuccessMessage.Updated, "Wallet debited successfully");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here if necessary
                 throw;
             }
         }
