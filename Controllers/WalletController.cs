@@ -22,5 +22,33 @@ namespace Maksab.Controllers
         {
             return GetServiceResponse(await _walletService.CreateWalletAsync(userId));
         }
+
+        [HttpPut("{userId}/activate")]
+        public async Task<IActionResult> ActivateWalletAsync([FromRoute] int userId)
+        {
+            return GetServiceResponse(await _walletService.ActivateWalletAsync(userId));
+        }
+        // Deactivate Wallet
+        [HttpPut("{userId}/deactivate")]
+        public async Task<IActionResult> DeactivateWalletAsync([FromRoute] int userId)
+        {
+            return GetServiceResponse(await _walletService.DeactivateWalletAsync(userId));
+        }
+
+        // Top Up Wallet
+        [HttpPost("{walletId}/topup")]
+        public async Task<IActionResult> TopUpWalletAsync([FromRoute] int walletId, [FromBody] decimal amount)
+        {
+            return GetServiceResponse(await _walletService.TopUpWalletAsync(walletId, amount));
+        }
+
+        // Debit Wallet
+        [HttpPost("{walletId}/debit")]
+        public async Task<IActionResult> DebitWalletAsync([FromRoute] int walletId, [FromBody] decimal amount)
+        {
+            return GetServiceResponse(await _walletService.DebitWalletAsync(walletId, amount));
+        }
+
+
     }
 }
