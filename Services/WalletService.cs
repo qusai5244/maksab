@@ -11,8 +11,6 @@ namespace Maksab.Services
     {
         private readonly DataContext _dataContext;
         private readonly IMessageHandler _messageHandler;
-        private const decimal MaxBalance = 100;
-        private const decimal MinBalance = 0;
         public WalletService(DataContext dataContext, IMessageHandler messageHandler)
         {
             _dataContext = dataContext;
@@ -78,8 +76,12 @@ namespace Maksab.Services
                     return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, "Wallet");
                 }
 
-                wallet.IsActive = true;
-                await _dataContext.SaveChangesAsync();
+                if (!wallet.IsActive)
+                {
+                    wallet.IsActive = true;
+                    wallet.UpdatedAt = DateTime.UtcNow;
+                    await _dataContext.SaveChangesAsync();
+                }
 
                 return _messageHandler.GetServiceResponse(SuccessMessage.Updated, "Wallet activated");
             }
@@ -89,7 +91,7 @@ namespace Maksab.Services
                 throw;
             }
         }
-        public async Task<ServiceResponse> DeactivateWalletAsync(int userId)
+        public async Task<ServiceResponse> DeActivateWalletAsync(int userId)
         {
             try
             {
@@ -101,8 +103,12 @@ namespace Maksab.Services
                     return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, "Wallet");
                 }
 
-                wallet.IsActive = false;
-                await _dataContext.SaveChangesAsync();
+                if (wallet.IsActive)
+                {
+                    wallet.IsActive = false;
+                    wallet.UpdatedAt = DateTime.UtcNow;
+                    await _dataContext.SaveChangesAsync();
+                }
 
                 return _messageHandler.GetServiceResponse(SuccessMessage.Updated, "Wallet deactivated");
             }
@@ -124,6 +130,8 @@ namespace Maksab.Services
                     return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, "Wallet");
                 }
 
+                var MaxBalance = 100;
+
                 // Check if the new balance exceeds the maximum limit
                 if (wallet.Balance + amount > MaxBalance)
                 {
@@ -133,6 +141,7 @@ namespace Maksab.Services
 
                 // Update the wallet balance
                 wallet.Balance += amount;
+                wallet.UpdatedAt = DateTime.UtcNow;
                 await _dataContext.SaveChangesAsync();
 
                 return _messageHandler.GetServiceResponse(SuccessMessage.Updated, "Wallet topped up successfully");
@@ -155,14 +164,17 @@ namespace Maksab.Services
                     return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, "Wallet");
                 }
 
+                var MaxBalance = 0;
+
                 // Check if the debit amount will result in a negative balance
-                if (wallet.Balance - amount < MinBalance)
+                if (wallet.Balance - amount < MaxBalance)
                 {
-                    return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, $"Cannot debit. Minimum balance is {MinBalance}.");
+                    return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, $"Cannot debit. Minimum balance is {MaxBalance}.");
                 }
 
                 // Update the wallet balance
                 wallet.Balance -= amount;
+                wallet.UpdatedAt = DateTime.UtcNow;
                 await _dataContext.SaveChangesAsync();
 
                 return _messageHandler.GetServiceResponse(SuccessMessage.Updated, "Wallet debited successfully");
