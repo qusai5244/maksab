@@ -25,13 +25,24 @@ namespace Maksab.Services
         {
             try
             {
+                // Check if the user exists and is active
+                //var isUserExist = await _dataContext.Users
+                //                                    .AsNoTracking()
+                //                                    .AnyAsync(x => x.Id == input.UserId && !x.IsDeleted && x.IsActive);
+
+                //if (!isUserExist)
+                //{
+                //    return _messageHandler.GetServiceResponse(ErrorMessage.NotFound, "User not found");
+                //}
+
+
                 var shop = new Shop
                 {
                     Name = input.Name,
                     NameAr = input.NameAr,
                     Status = input.Status,
                     Type = input.Type,
-                    //UserId = input.UserId;
+                    UserId = input.UserId,
                     LogoPath = input.LogoPath,
                 };
 
@@ -62,7 +73,6 @@ namespace Maksab.Services
                 shop.NameAr = input.NameAr;
                 shop.Status = input.Status;
                 shop.Type = input.Type;
-                //shop.UserId = input.UserId;
                 shop.LogoPath = input.LogoPath;
                
 
@@ -75,7 +85,7 @@ namespace Maksab.Services
                 return _messageHandler.GetServiceResponse(ErrorMessage.ServerInternalError, "UpdateShopAsync");
             }
         }
-        public async Task<ServiceResponse<GetShopDto>>GetShopsAsync(int shopId, int userId)
+        public async Task<ServiceResponse<GetShopDto>>GetShopAsync(int shopId, int userId)
         {
             try
             {
@@ -92,7 +102,7 @@ namespace Maksab.Services
                                     Type = r.Type,
                                     LogoPath = r.LogoPath,
                                 })//EXPLAIN
-                                .FirstOrDefaultAsync(s => s.ShopId == shopId && (s.UserId == userId || userId == 0));
+                                .FirstOrDefaultAsync(s => s.ShopId == shopId && (s.UserId == userId));
 
 
                 if (shop == null)

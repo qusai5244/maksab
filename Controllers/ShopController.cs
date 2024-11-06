@@ -17,30 +17,30 @@ namespace Maksab.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Post([FromBody] CreateNewShopDto input)
+        public async Task<IActionResult> CreateShopAsync([FromBody] CreateNewShopDto input)
         {
-            var result = await _shopServices.CreateShopAsync(input);
-            return Ok(result);
+            return GetServiceResponse(await _shopServices.CreateShopAsync(input));
+          
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Get([FromQuery]GlobalFilterDto input)
+        public async Task<IActionResult> GetShopListAsync([FromQuery]GlobalFilterDto input)
         {
             return GetServiceResponse(await _shopServices.GetShopListAsync(input));
         }
 
         [HttpGet("{shopId}/{userId}")]
-        public async Task<IActionResult> Get(int shopId,int userId)
+        public async Task<IActionResult> GetShopsAsync(int shopId,int userId)
         {
-            var result = await _shopServices.GetShopsAsync(shopId,userId);
-            return Ok(result);
+            return GetServiceResponse(await _shopServices.GetShopsAsync(shopId,userId));
+           
         }
 
         [HttpPut("{shopId}")]
-        public async Task<IActionResult> Put(int shopId, [FromBody] UpdateShopDto input)
+        public async Task<IActionResult> UpdateShopAsync(int shopId, [FromBody] UpdateShopDto input)
         {
-            var result = await _shopServices.UpdateShopAsync(shopId, input);
-            return Ok(result);
+            return GetServiceResponse(await _shopServices.UpdateShopAsync(shopId, input));
+           
         }
 
 

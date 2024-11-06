@@ -13,7 +13,6 @@ namespace Maksab.Dtos.Shop
         [Required]
         public string NameAr { get; set; }
 
-        public int UserId { get; set; } // Foreign key to Users table (assuming it exists)
 
         public bool Status { get; set; } // Active/Inactive status
 

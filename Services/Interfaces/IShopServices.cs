@@ -9,7 +9,7 @@ namespace Maksab.Services.Interfaces
     {
         Task<ServiceResponse> CreateShopAsync(CreateNewShopDto input);
         Task<ServiceResponse> UpdateShopAsync(int shopId,UpdateShopDto input);
-        Task<ServiceResponse <GetShopDto>>GetShopsAsync(int shopId, int userId);
+        Task<ServiceResponse <GetShopDto>>GetShopAsync(int shopId, int userId);
         Task<ServiceResponse<Pagination<ShopListOutputDto>>>GetShopListAsync(GlobalFilterDto input);
        
     }
