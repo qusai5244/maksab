@@ -32,7 +32,7 @@ namespace Maksab.Controllers
         [HttpGet("{shopId}/{userId}")]
         public async Task<IActionResult> GetShopsAsync(int shopId,int userId)
         {
-            return GetServiceResponse(await _shopServices.GetShopsAsync(shopId,userId));
+            return GetServiceResponse(await _shopServices.GetShopAsync(shopId,userId));
            
         }
 

@@ -7,6 +7,8 @@ namespace Maksab.Data
     {
         public DbSet<Car> Cars { get; set; }
         public DbSet<Shop> Shops { get; set; }
+
+        public DbSet<Product> Products { get; set; }
         //public DbSet<User> Users { get; set; }
     }
 }
