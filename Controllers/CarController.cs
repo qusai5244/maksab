@@ -9,33 +9,14 @@ namespace Maksab.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CarController : ControllerBase
+    public class CarController(ICarServices carServices, IMessageHandler messageHandler) : BaseController(messageHandler)
     {
-        public readonly ICarServices _carServices;
-        private readonly IMessageHandler _messageHandler;
-
-        public CarController(ICarServices carServices, IMessageHandler messageHandler)
-        {
-            _carServices = carServices;
-            _messageHandler = messageHandler;
-
-        }
-        // Service Response
-        public ActionResult GetServiceResponse<T>(ServiceResponse<T> response)
-        {
-            if (!response.Succeed)
-            {
-                return BadRequest(new ApiResponse(response.Code, response.Description, response.Result));
-            }
-
-            return Ok(new ApiResponse(response.Code, response.Description, response.Result));
-        }
+        public readonly ICarServices _carServices = carServices;
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddNewCardDto input)
         {
-            var result = await _carServices.AddCarAsync(input);
-            return Ok(result);
+            return GetServiceResponse(await _carServices.AddCarAsync(input));
         }
 
         [HttpGet]
@@ -47,15 +28,13 @@ namespace Maksab.Controllers
         [HttpGet("{carId}")]
         public async Task<IActionResult> Get(int carId)
         {
-            var result = await _carServices.GetCarAsync(carId);
-            return Ok(result);
+            return GetServiceResponse(await _carServices.GetCarAsync(carId));
         }
 
         [HttpPut("{carId}")]
         public async Task<IActionResult> Put(int carId, [FromBody] UpdateCardDto input)
         {
-            var result = await _carServices.UpdateCarAsync(carId, input);
-            return Ok(result);
+            return GetServiceResponse(await _carServices.UpdateCarAsync(carId, input));
         }
 
     }
