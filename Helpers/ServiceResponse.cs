@@ -2,8 +2,7 @@
 {
     public class ServiceResponse : ApiResponse
     {
-        public bool Succeed { get; private set; } // Contains if the functions succeed or failed.
-
+        public bool Succeed { get; private set; } 
         public ServiceResponse(bool success, int code, string description) : base(code, description)
         {
             Succeed = success;
@@ -11,11 +10,9 @@
 
     }
 
-    /// ServiceResponse<T> with T inherenting from ServiceResponse,
-    /// <T> added to make it strong type service response which return specific type of results
     public class ServiceResponse<T> : ServiceResponse
     {
-        public T Result { get; private set; } // Contains the result of the function based on their type.
+        public T Result { get; private set; } 
 
         public ServiceResponse(bool success, T result, int code, string description) : base(success, code, description)
         {
@@ -26,8 +23,8 @@
 
     public class ServiceResponse<T, R> : ServiceResponse
     {
-        public T Result { get; private set; } // Contains the result of the function based on their type.
-        public R Metadata { get; private set; } // Contains result metadata
+        public T Result { get; private set; } 
+        public R Metadata { get; private set; } 
 
         public ServiceResponse(bool success, T result, int code, string description, R metadata) : base(success, code, description)
         {
