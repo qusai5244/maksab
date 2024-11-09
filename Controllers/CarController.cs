@@ -1,9 +1,11 @@
 using Maksab.Dtos;
 using Maksab.Dtos.Car;
 using Maksab.Helpers.MessageHandler;
+using Maksab.Security.ACL;
 using Maksab.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Maksab.Security.ACL.UserPermissions;
 
 namespace Maksab.Controllers
 {
@@ -19,8 +21,10 @@ namespace Maksab.Controllers
         }
 
         [HttpPost("")]
+        [HasPermission(Permissions, Admin.Test2)]
         public async Task<IActionResult> Post([FromBody] AddNewCardDto input)
         {
+            if (!ModelState.IsValid) return InvaidInput();
             var result = await _carServices.AddCarAsync(input);
             return Ok(result);
         }

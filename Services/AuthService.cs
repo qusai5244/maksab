@@ -2,9 +2,11 @@
 using Maksab.Dtos.Auth;
 using Maksab.Helpers;
 using Maksab.Helpers.MessageHandler;
+using Maksab.Models;
 using Maksab.Security.ACL;
 using Maksab.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
@@ -20,13 +22,18 @@ namespace Maksab.Services
         private readonly IMessageHandler _messageHandler;
         private readonly DataContext _dataContext;
         private readonly ILogger _logger;
+        private readonly IPasswordHasher<User> _hasher;
 
-        public AuthService(IConfiguration configuration, IMessageHandler messageHandler,
-            DataContext dataContext)
+
+        public AuthService(IConfiguration configuration, 
+            IMessageHandler messageHandler,
+            DataContext dataContext,
+            IPasswordHasher<User> hasher)
         {
             _configuration = configuration;
             _messageHandler = messageHandler;
             _dataContext = dataContext;
+            _hasher = hasher;
         }
 
         public async Task<ServiceResponse<LoginOutputDto>> LoginAsync(LoginInputDto input)
@@ -35,10 +42,13 @@ namespace Maksab.Services
             {
                 var user = await _dataContext
                              .Users
-                             .Include(x => x.UsersToRoles)
+                             .Include(user => user.UsersToRoles)
+                                .ThenInclude(userToRoles => userToRoles.Role)
+                                    .ThenInclude(roles => roles.RolesToPermissions)
+                                        .ThenInclude(rolesToPermissions => rolesToPermissions.Permission)
                              .FirstOrDefaultAsync(x => x.Email == input.Email && x.IsActive && !x.IsDeleted);
 
-                var isPasswordMatched = user.Password == input.Password;
+                var isPasswordMatched = _hasher.VerifyHashedPassword(user, user.Password, input.Password) != PasswordVerificationResult.Failed;
 
                 if (user == null || !isPasswordMatched)
                 {
@@ -46,10 +56,10 @@ namespace Maksab.Services
                 }
 
                 var claims = new List<Claim>
-            {
+                {
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(Helpers.Constants.UserId, user.Id.ToString()),
-            };
+                };
 
                 var rolePermissions = user
                                       .UsersToRoles
@@ -93,6 +103,45 @@ namespace Maksab.Services
                 throw;
             }
 
+        }
+
+        public async Task<ServiceResponse> RegisterAsync(RegisterInputDto input)
+        {
+            try
+            {
+                var emailExist = await _dataContext
+                             .Users
+                             .AnyAsync(x => x.Email == input.Email && !x.IsDeleted);
+
+                if (emailExist)
+                {
+                    return _messageHandler.GetServiceResponse<RegisterInputDto>(ErrorMessage.AlreadyExists, null, "Email Used already");
+                }
+
+                var user = new User
+                {
+                    FirstName = input.FirstName,
+                    LastName = input.LastName,
+                    Email = input.Email,
+                    PhoneNumber = input.PhoneNumber, 
+                    CreatedAt = DateTime.UtcNow,
+                    IsEmailVerified = false,
+                    IsPhoneVerified = false,
+                    IsActive = true,
+                    IsDeleted = false
+                };
+
+                user.Password = _hasher.HashPassword(user, input.Password);
+
+                await _dataContext.Users.AddAsync(user);
+                await _dataContext.SaveChangesAsync();
+
+                return _messageHandler.GetServiceResponse(SuccessMessage.Created);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

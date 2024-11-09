@@ -24,5 +24,11 @@ namespace Maksab.Controllers
             return GetServiceResponse(await _authService.LoginAsync(input));
         }
 
+        [HttpPost("Register")]
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterInputDto input)
+        {
+            return GetServiceResponse(await _authService.RegisterAsync(input));
+        }
+
     }
 }

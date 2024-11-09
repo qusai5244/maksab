@@ -19,9 +19,9 @@ namespace Maksab.Models
         public string Email { get; set; } 
         public string Password { get; set; }  
         public bool IsPhoneVerified { get; set; }  
-        public DateTime PhoneVerifiedAt { get; set; }
+        public DateTime? PhoneVerifiedAt { get; set; }
         public bool IsEmailVerified { get; set; }
-        public DateTime EmailVerifiedAt { get; set; }
+        public DateTime? EmailVerifiedAt { get; set; }
         public bool IsActive { get; set; } = true;  
         public bool IsDeleted { get; set; } = false;  
         public string ProfileImageUrl { get; set; } 

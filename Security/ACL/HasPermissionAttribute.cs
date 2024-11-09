@@ -7,7 +7,7 @@ namespace Maksab.Security.ACL
     {
         public HasPermissionAttribute(string claimType, int claimValue) : base(typeof(ClaimRequirementFilter))
         {
-            Arguments = new object[] { new Claim(claimType, claimValue.ToString()) };
+            Arguments = [new Claim(claimType, claimValue.ToString())];
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Maksab.Dtos.Car
 {
     public class AddNewCardDto
     {
-        [Required]
+        [Range(1, 500000)]
         public int Year { get; set; }
 
         [Range(0, 500000)]
@@ -14,12 +14,13 @@ namespace Maksab.Dtos.Car
         [MaxLength(255)]
         public string Color { get; set; }
 
-        [Required]
+        [Range(1, 500000)]
         public int Price { get; set; }
-        [Required]
+
+        [EnumDataType(typeof(FuelType))]
         public FuelType FuelType { get; set; }
 
-        [Required]
+        [EnumDataType(typeof(TransmissionType))]
         public TransmissionType TransmissionType { get; set; }
     }
 }
