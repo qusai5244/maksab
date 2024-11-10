@@ -1,24 +1,36 @@
 ﻿namespace Maksab.Models;
-using System;
 using System.ComponentModel.DataAnnotations;
 public class Product
 {
     [Key]
     public int Id { get; set; }
-
     [Required]
+    [MaxLength(255)]
     public string Name { get; set; }
-
     [Required]
+    [MaxLength(255)]
     public string NameAr { get; set; }
+    public int ShopId { get; set; } 
+    public Shop Shop { get; set; }
+    public int UserId { get; set; }
+    public User User { get; set; }
+    public bool IsDigital { get; set; }
+    public ProductStatus Status { get; set; }
+    //public ProductType Type { get; set; } 
+    public string ImagePath { get; set; }
+}
 
-    public int ShopId { get; set; } // Foreign key to Shop table (assuming it exists)
-    public int UserId { get; set; } // Foreign key to Users table (assuming it exists)
+public enum ProductType
+{
+    Food,
+    Electronics,
+    Clothing,
+    Furniture,
+    Other
+}
 
-
-    public bool Status { get; set; } // Active/Inactive status
-
-    public string Type { get; set; } // Shop type
-
-    public string ImagePAth { get; set; } // Product for logo image
+public enum ProductStatus
+{
+    Active,
+    Inactive
 }
