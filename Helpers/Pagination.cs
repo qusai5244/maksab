@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-namespace Maksab.Helpers
+﻿namespace Maksab.Helpers
 {
     public class Pagination<T>
     {
